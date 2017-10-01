@@ -72,6 +72,8 @@ cpdefine("inline:com-chilipeppr-workspace-d1", ["chilipeppr_ready"], function() 
 
             this.loadLuaEditorWidget();
             
+            this.loadCurrSensWidget();
+            
             // Create our workspace upper right corner triangle menu
             this.loadWorkspaceMenu();
             // Add our billboard to the menu (has name, url, picture of workspace)
@@ -140,6 +142,33 @@ cpdefine("inline:com-chilipeppr-workspace-d1", ["chilipeppr_ready"], function() 
                 }
             );
         },
+        
+        
+        loadCurrSensWidget: function()
+        {
+            chilipeppr.load(
+                "#net-mydomain-widget-currsens-instance",
+                "http://raw.githubusercontent.com/mumaque/widget-currsens/master/auto-generated-widget.html",
+                function() {
+                    // Callback after widget loaded into #myDivNetMydomainWidgetCurrsens
+                    // Now use require.js to get reference to instantiated widget
+                    cprequire(
+                        ["inline:net-mydomain-widget-currsens"], // the id you gave your widget
+                        function(myObjNetMydomainWidgetCurrsens) {
+                            // Callback that is passed reference to the newly loaded widget
+                            console.log("Widget / CurrSens just got loaded.", myObjNetMydomainWidgetCurrsens);
+                            myObjNetMydomainWidgetCurrsens.init();
+                        }
+                    );
+                }
+            );
+        },
+                
+        
+        
+        
+        
+        
         /**
          * Load the Lua Editor widget via chilipeppr.load()
          */

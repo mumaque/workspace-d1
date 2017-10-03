@@ -69,7 +69,6 @@ cpdefine("inline:com-chilipeppr-workspace-d1", ["chilipeppr_ready"], function() 
             });
             
 //            this.loadTemplateWidget();
-
 //            this.loadLuaEditorWidget();
             
             this.load3DviewerWidget();

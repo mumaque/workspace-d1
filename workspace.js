@@ -74,6 +74,8 @@ cpdefine("inline:com-chilipeppr-workspace-d1", ["chilipeppr_ready"], function() 
             
             this.loadCurrSensWidget();
             
+            this.loadAxesWidget();
+            
             // Create our workspace upper right corner triangle menu
             this.loadWorkspaceMenu();
             // Add our billboard to the menu (has name, url, picture of workspace)
@@ -225,6 +227,31 @@ cpdefine("inline:com-chilipeppr-workspace-d1", ["chilipeppr_ready"], function() 
                 }
             );
         },
+        
+        
+        loadAxesWidget: function(callback)
+        {
+            chilipeppr.load(
+                    "#axes-widget-instance",
+                    "https://raw.githubusercontent.com/mumaque/widget-axes/master/auto-generated-widget.html",
+                    function() {
+                        // Callback after widget loaded into #myDivWidgetXyz
+                        // Now use require.js to get reference to instantiated widget
+                        cprequire(
+                            ["inline:com-chilipeppr-widget-xyz"], // the id you gave your widget
+                            function(myObjWidgetXyz) {
+                                // Callback that is passed reference to the newly loaded widget
+                                console.log("Widget / XYZ Axes v2 just got loaded.", myObjWidgetXyz);
+                                myObjWidgetXyz.init();
+                            }
+                        );
+                    }
+);            
+        },
+        
+        
+        
+        
         /**
          * Load the Console widget via chilipeppr.load()
          */

@@ -350,7 +350,7 @@ cpdefine("inline:com-chilipeppr-workspace-d1", ["chilipeppr_ready"], function() 
                         function(myObjWidgetSpconsole) {
                             // Callback that is passed reference to the newly loaded widget
                             console.log("Widget / Serial Port Console v1.7 just got loaded.", myObjWidgetSpconsole);
-                            myObjWidgetSpconsole.init();
+                            myObjWidgetSpconsole.init(true, /ok/);
                         }
                     );
                 }

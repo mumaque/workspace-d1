@@ -73,6 +73,8 @@ cpdefine("inline:com-chilipeppr-workspace-d1", ["chilipeppr_ready"], function() 
             
             this.load3DviewerWidget();
             
+            this.loadGcodeWidget();
+            
             this.loadCurrSensWidget();
             
             this.loadAxesWidget();
@@ -169,7 +171,25 @@ cpdefine("inline:com-chilipeppr-workspace-d1", ["chilipeppr_ready"], function() 
                 
         
         
-        
+        loadGcodeWidget: function(callback)
+        {
+            chilipeppr.load(
+                "#widget-gcode-instance",
+                "http://raw.githubusercontent.com/mumaque/widget-gcodelist/master/auto-generated-widget.html",
+                function() {
+                    // Callback after widget loaded into #myDivWidgetGcode
+                    // Now use require.js to get reference to instantiated widget
+                    cprequire(
+                        ["inline:com-chilipeppr-widget-gcode"], // the id you gave your widget
+                        function(myObjWidgetGcode) {
+                            // Callback that is passed reference to the newly loaded widget
+                            console.log("Widget / Gcode v8 just got loaded.", myObjWidgetGcode);
+                            myObjWidgetGcode.init();
+                        }
+                    );
+                }
+            );
+        },
         
         
         /**

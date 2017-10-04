@@ -287,22 +287,22 @@ cpdefine("inline:com-chilipeppr-workspace-d1", ["chilipeppr_ready"], function() 
         
         loadGcodeWidget: function(callback)
         {
-            chilipeppr.load(
-                "#widget-gcode-instance",
-                "http://raw.githubusercontent.com/mumaque/widget-gcodelist/master/auto-generated-widget.html",
+            chilipeppr.load("#com-chilipeppr-gcode-list",
+                "http://raw.githubusercontent.com/chilipeppr/widget-gcodelist/master/auto-generated-widget.html",
+            
                 function() {
-                    // Callback after widget loaded into #myDivWidgetGcode
-                    // Now use require.js to get reference to instantiated widget
                     cprequire(
-                        ["inline:widget-gcode-instance"], // the id you gave your widget
-                        function(myObjWidgetGcode) {
-                            // Callback that is passed reference to the newly loaded widget
-                            console.log("Widget / Gcode v8 just got loaded.", myObjWidgetGcode);
-                            myObjWidgetGcode.init();
+                        ["inline:com-chilipeppr-widget-gcode"],
+            
+                        function(gcodelist) {
+                            gcodelist.init({
+                                lineNumbersOnByDefault: true
+                            });
                         }
                     );
                 }
-            );
+            ); //End Gcode List v3
+            
         },
         
         
@@ -446,12 +446,15 @@ cpdefine("inline:com-chilipeppr-workspace-d1", ["chilipeppr_ready"], function() 
         loadConsoleWidget: function(callback) {
             var that = this;
             chilipeppr.load(
-                "#com-chilipeppr-widget-spconsole-instance",
+                "#com-chilipeppr-widget-console-instance",
                 "http://fiddle.jshell.net/chilipeppr/rczajbx0/show/light/",
                 function() {
                     // Callback after widget loaded into #com-chilipeppr-widget-spconsole-instance
+                    
                     cprequire(
-                        ["inline:com-chilipeppr-widget-spconsole"], // the id you gave your widget
+                        ["inline:com-chilipeppr-widget-console"], // the id you gave your widget
+                        
+                        
                         function(mywidget) {
                             // Callback that is passed reference to your newly loaded widget
                             console.log("My Console widget just got loaded.", mywidget);
@@ -464,10 +467,42 @@ cpdefine("inline:com-chilipeppr-workspace-d1", ["chilipeppr_ready"], function() 
                             // 2nd param is a regexp filter where the console will filter out
                             // annoying messages you don't generally want to see back from your
                             // device, but that the user can toggle on/off with the funnel icon
+                            
                             that.widgetConsole.init(true, /myfilter/);
                             if (callback) callback(mywidget);
                         }
                     );
+                    
+                    
+                    cprequire(
+                        ["inline:com-chilipeppr-widget-console"], // the id you gave your widget
+
+
+                        function(spc) {
+                            // pass in regular expression filter as 2nd parameter
+                            // to enable filter button and clean up how much
+                            // data is shown
+                            spc.init(true, /^{/);
+
+                            // resize this console on a browser resize
+                            $(window).on('resize', function(evt) {
+                                //console.log("serial-port-console. resize evt:", evt);
+                                if ($.isWindow(evt.target)) {
+                                    //console.log("resize was window. so resizing");
+                                    spc.resize();
+                                }
+                                else {
+                                    //console.log("resize was not window, so ignoring");
+                                }
+                            });
+                            // resize this console if we get a publish
+                            // from the gcode viewer widget
+                            chilipeppr.subscribe("/com-chilipeppr-widget-gcode/resize", spc, spc.resize);
+
+                        }
+                    );
+                                        
+                    
                 }
             );
         },
@@ -555,18 +590,13 @@ cpdefine("inline:com-chilipeppr-workspace-d1", ["chilipeppr_ready"], function() 
                         <p class="sample">CurrSens goes here</p>
                     </div-->
 
-                    <div id="widget-gcode-instance">
-                        widget gcode
-                    </div>
+                    <div id="com-chilipeppr-gcode-list" class="zhigh">Load Gcode List Here</div>
 
                     
-                    <div id="com-chilipeppr-widget-template-instance">
-                        <p class="sample">Template Widget goes here</p>
-                    </div>
+                    <!--div id="com-chilipeppr-widget-template-instance"><p class="sample">Template Widget goes here</p></div-->
 
-                    <div id="com-chilipeppr-widget-spconsole-instance">
-                        Serial Port Console goes here.
-                    </div>
+                    <!--div id="com-chilipeppr-widget-console-instance">Serial Port Console goes here.</div-->
+                    <div id="com-chilipeppr-widget-console-instance" class="zhigh">Load Serial Port Console Here</div>
 
                 </div>
 

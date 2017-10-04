@@ -294,7 +294,7 @@ cpdefine("inline:com-chilipeppr-workspace-d1", ["chilipeppr_ready"], function() 
                     // Callback after widget loaded into #myDivWidgetGcode
                     // Now use require.js to get reference to instantiated widget
                     cprequire(
-                        ["inline:com-chilipeppr-widget-gcode"], // the id you gave your widget
+                        ["inline:widget-gcode-instance"], // the id you gave your widget
                         function(myObjWidgetGcode) {
                             // Callback that is passed reference to the newly loaded widget
                             console.log("Widget / Gcode v8 just got loaded.", myObjWidgetGcode);
@@ -387,22 +387,54 @@ cpdefine("inline:com-chilipeppr-workspace-d1", ["chilipeppr_ready"], function() 
         
         load3DviewerWidget: function(callback)
         {
+
             chilipeppr.load(
-                "#3Dviewer-widget-instance",
-                "http://raw.githubusercontent.com/mumaque/widget-3dviewer/master/auto-generated-widget.html",
+                "#com-chilipeppr-3dviewer",
+                //"http://fiddle.jshell.net/chilipeppr/y3HRF/show/light/",
+                "http://raw.githubusercontent.com/chilipeppr/widget-3dviewer/master/auto-generated-widget.html",
+    
                 function() {
-                    // Callback after widget loaded into #myDivWidget3dviewer
-                    // Now use require.js to get reference to instantiated widget
+                    console.log("got callback done loading 3d");
+    
                     cprequire(
-                        ["inline:com-chilipeppr-widget-3dviewer"], // the id you gave your widget
-                        function(myObjWidget3dviewer) {
-                            // Callback that is passed reference to the newly loaded widget
-                            console.log("Widget / 3D GCode Viewer just got loaded.", myObjWidget3dviewer);
-                            myObjWidget3dviewer.init();
+                        ['inline:com-chilipeppr-widget-3dviewer'],
+    
+                        function(threed) {
+                            console.log("Running 3dviewer");
+                            threed.init();
+                            console.log("3d viewer initted");
+    
+                            // Ok, do someting whacky. Try to move the 3D Viewer 
+                            // Control Panel to the center column
+                            setTimeout(function() {
+                                var element = $('#com-chilipeppr-3dviewer .panel-heading').detach();
+                                $('#com-chilipeppr-3dviewer').addClass("noheight");
+                                $('#com-chilipeppr-widget-3dviewer').addClass("nomargin");
+                                $('#com-chilipeppr-3dviewer-controlpanel').append(element);
+                            }, 10);
+    
+                            // listen to resize events so we can resize our 3d viewer
+                            // this was done to solve the scrollbar residue we were seeing
+                            // resize this console on a browser resize
+                            var mytimeout = null;
+                            $(window).on('resize', function(evt) {
+                                //console.log("3d view force resize");
+                                if (mytimeout !== undefined && mytimeout != null) {
+                                    clearTimeout(mytimeout);
+                                    //console.log("cancelling timeout resize");
+                                }
+                                mytimeout = setTimeout(function() {
+                                    console.log("3d view force resize. 1 sec later");
+                                    threed.resize();
+                                }, 1000);
+    
+                            });
                         }
                     );
                 }
-            );
+            ); //End 3D Viewer
+                        
+            
             
         },
         
@@ -486,7 +518,7 @@ cpdefine("inline:com-chilipeppr-workspace-d1", ["chilipeppr_ready"], function() 
                 <!-- You must have all columns add up to 12 since we use bootstrap's col-md technique, i.e. col-md-2, col-md-7, col-md-3 adds to 12 -->
                 <div class="col-md-4 col-pad10">
                     
-                    <div id="3Dviewer-widget-instance">3dviewer</div>
+                    <div id="com-chilipeppr-3dviewer">Load 3D Viewport Here</div>
 
                     <div class="com-chilipeppr-ws-hdr well">
                         
@@ -545,6 +577,22 @@ cpdefine("inline:com-chilipeppr-workspace-d1", ["chilipeppr_ready"], function() 
                         <p class="sample" style="min-height:200px;">Lua Ed. goes here</p>
                     </div-->
                     
+                    
+                    <div class="">
+                        <table>
+                            <tr>
+                                <td>
+                                    <div id="com-chilipeppr-3dviewer-controlpanel" style=""></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <!--div id="com-chilipeppr-ws-rpmsensor" style="padding: 10px 10px;" class="hidden"></div-->
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                                                                  
                 </div>
 
                 <!-- Right Column -->

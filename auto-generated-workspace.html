@@ -87,6 +87,27 @@
     padding: 4px 10px 10px 10px;
     background-color: rgba(255, 255, 255, 0.5);
 }
+
+
+
+
+#widget-gcode-instance .panel-heading,
+#com-chilipeppr-3dviewer-controlpanel .panel-heading 
+{
+    background:none;
+    /* border:none; */
+    padding:10px 15px;
+    margin-bottom:0;
+}
+
+#com-chilipeppr-3dviewer-controlpanel 
+{
+    padding:0 10px;
+    float:left;
+}
+
+
+
     </style>
 
     <script type='text/javascript'>
@@ -464,6 +485,8 @@ cpdefine("inline:com-chilipeppr-workspace-d1", ["chilipeppr_ready"], function() 
                 <!-- Change the width by adjusting col-md-4 to be col-md-3 for skinnier, or col-md-5 for wider -->
                 <!-- You must have all columns add up to 12 since we use bootstrap's col-md technique, i.e. col-md-2, col-md-7, col-md-3 adds to 12 -->
                 <div class="col-md-4 col-pad10">
+                    
+                    <div id="3Dviewer-widget-instance">3dviewer</div>
 
                     <div class="com-chilipeppr-ws-hdr well">
                         
@@ -493,9 +516,7 @@ cpdefine("inline:com-chilipeppr-workspace-d1", ["chilipeppr_ready"], function() 
                         <p class="sample">Widget 1 goes here</p>
                     </div-->
 
-                    <div id="3Dviewer-widget-instance">
-                        3dviewer
-                    </div>
+                    
 
                     
                     <!--div id="net-mydomain-widget-currsens-instance">

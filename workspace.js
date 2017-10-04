@@ -332,15 +332,12 @@ cpdefine("inline:com-chilipeppr-workspace-d1", ["chilipeppr_ready"], function() 
         loadConsoleWidget: function(callback) {
             var that = this;
             chilipeppr.load(
-                "#com-chilipeppr-widget-console-instance",
+                "#com-chilipeppr-widget-spconsole-instance",
                 "http://fiddle.jshell.net/chilipeppr/rczajbx0/show/light/",
                 function() {
                     // Callback after widget loaded into #com-chilipeppr-widget-spconsole-instance
-                    
                     cprequire(
-                        ["inline:com-chilipeppr-widget-console"], // the id you gave your widget
-                        
-                        
+                        ["inline:com-chilipeppr-widget-spconsole"], // the id you gave your widget
                         function(mywidget) {
                             // Callback that is passed reference to your newly loaded widget
                             console.log("My Console widget just got loaded.", mywidget);
@@ -353,42 +350,10 @@ cpdefine("inline:com-chilipeppr-workspace-d1", ["chilipeppr_ready"], function() 
                             // 2nd param is a regexp filter where the console will filter out
                             // annoying messages you don't generally want to see back from your
                             // device, but that the user can toggle on/off with the funnel icon
-                            
                             that.widgetConsole.init(true, /myfilter/);
                             if (callback) callback(mywidget);
                         }
                     );
-                    
-                    
-                    cprequire(
-                        ["inline:com-chilipeppr-widget-console"], // the id you gave your widget
-
-
-                        function(spc) {
-                            // pass in regular expression filter as 2nd parameter
-                            // to enable filter button and clean up how much
-                            // data is shown
-                            spc.init(true, /^{/);
-
-                            // resize this console on a browser resize
-                            $(window).on('resize', function(evt) {
-                                //console.log("serial-port-console. resize evt:", evt);
-                                if ($.isWindow(evt.target)) {
-                                    //console.log("resize was window. so resizing");
-                                    spc.resize();
-                                }
-                                else {
-                                    //console.log("resize was not window, so ignoring");
-                                }
-                            });
-                            // resize this console if we get a publish
-                            // from the gcode viewer widget
-                            chilipeppr.subscribe("/com-chilipeppr-widget-gcode/resize", spc, spc.resize);
-
-                        }
-                    );
-                                        
-                    
                 }
             );
         },

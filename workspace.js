@@ -330,6 +330,8 @@ cpdefine("inline:com-chilipeppr-workspace-d1", ["chilipeppr_ready"], function() 
          * Load the Console widget via chilipeppr.load()
          */
         loadConsoleWidget: function(callback) {
+
+/*
             var that = this;
             chilipeppr.load(
                 "#com-chilipeppr-widget-spconsole-instance",
@@ -356,6 +358,25 @@ cpdefine("inline:com-chilipeppr-workspace-d1", ["chilipeppr_ready"], function() 
                     );
                 }
             );
+*/            
+            
+            chilipeppr.load(
+                "#com-chilipeppr-widget-spconsole-instance",
+                "http://raw.githubusercontent.com/mumaque/widget-console/master/auto-generated-widget.html",
+                function() {
+                    // Callback after widget loaded into #myDivWidgetSpconsole
+                    // Now use require.js to get reference to instantiated widget
+                    cprequire(
+                        ["inline:com-chilipeppr-widget-spconsole"], // the id you gave your widget
+                        function(myObjWidgetSpconsole) {
+                            // Callback that is passed reference to the newly loaded widget
+                            console.log("Widget / Serial Port Console v1.7 just got loaded.", myObjWidgetSpconsole);
+                            myObjWidgetSpconsole.init();
+                        }
+                    );
+                }
+            );
+            
         },
         /**
          * Load the workspace menu and show the pubsubviewer and fork links using

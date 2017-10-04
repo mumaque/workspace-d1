@@ -75,7 +75,7 @@ cpdefine("inline:com-chilipeppr-workspace-d1", ["chilipeppr_ready"], function() 
             
             this.loadGcodeWidget();
             
-            this.loadCurrSensWidget();
+//            this.loadCurrSensWidget();
             
             this.loadAxesWidget();
             
